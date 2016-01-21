@@ -121,6 +121,7 @@ public class OntologyProcessor {
 	// TODO Zrobić rekurencyjne zapytanie dla całego drzewa
 	public String listClassesWithSubClasses() {
 		ExtendedIterator<OntClass> classes = model.listClasses();
+
 		StringBuilder result = new StringBuilder();
 
 		while (classes.hasNext()) {
@@ -146,6 +147,43 @@ public class OntologyProcessor {
 			}
 		}
 		return result.toString();
+	}
+
+	public void listClassHierarchy() {
+		ExtendedIterator<OntClass> classes = model.listClasses();
+		int result = 0;
+
+		while (classes.hasNext()) {
+			OntClass ontClass = classes.next();
+			result = 1;
+			findChildren(ontClass, result, true);
+		}
+	}
+
+	private void findChildren(OntResource parent, int indent, boolean printSuper) {
+		OntClass ontClass = (OntClass) parent;
+		ExtendedIterator<? extends OntResource> subClasses = ontClass.listSubClasses();
+
+		if (ontClass.getLocalName() != null) {
+
+			if (ontClass.hasSubClass() && printSuper) {
+				System.err.println(ontClass.getLocalName());
+			}
+
+			while (subClasses.hasNext()) {
+				OntClass nextValue = (OntClass) subClasses.next();
+				if (nextValue.hasSubClass()) {
+					System.err.print("\t");
+					System.err.println(nextValue.getLocalName());
+					findChildren(nextValue, indent + 1, false);
+				} else {
+					for (int i = 0; i < indent; i++) {
+						System.err.print("\t");
+					}
+					System.err.println(nextValue.getLocalName());
+				}
+			}
+		}
 	}
 
 	public String listPropertiesWithRangeAndDomain() {

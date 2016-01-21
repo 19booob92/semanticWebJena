@@ -27,6 +27,8 @@ public class main {
 		System.err.println(classesWithSubClasses);
 		System.err.println("\n\n");
 		System.err.println(propertiesWithDomainAndRange);
+		
+		processor.listClassHierarchy();
 
 	}
 }
