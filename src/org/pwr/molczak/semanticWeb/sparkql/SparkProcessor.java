@@ -16,10 +16,14 @@ public class SparkProcessor {
 	public static final String PREFIX_TOKEN = "_PREF_";
 
 	public void runQuery(SparkQuery inputQuery) {
+		runQuery(inputQuery.query());
+	}
+
+	public void runQuery(String inputQuery) {
 		RunJena runJena = new RunJena();
 		Model model = runJena.getModel();
 
-		String processedQuery = insertPrefix(inputQuery.query());
+		String processedQuery = insertPrefix(inputQuery);
 
 		Query query = QueryFactory.create(processedQuery);
 
