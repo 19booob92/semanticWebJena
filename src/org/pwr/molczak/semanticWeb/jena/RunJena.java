@@ -14,26 +14,21 @@ public class RunJena {
 
 	public RunJena() {
 		init();
-
 	}
 
 	private void init() {
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
-	}
 
-	public OntModel getModel() {
 		try {
 			InputStream file = FileUtils.readOwlFile();
-			try {
-				model.read(file, null);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			model.read(file, null);
 		} catch (JenaException exception) {
-			System.err.println(exception.getMessage());
 			exception.printStackTrace();
 		}
 
+	}
+
+	public OntModel getModel() {
 		return model;
 	}
 
