@@ -4,11 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.pwr.molczak.semanticWeb.jena.OntologyProcessor;
 import org.pwr.molczak.semanticWeb.queries.SparkQuery;
 import org.pwr.molczak.semanticWeb.queries.SparkRules;
 import org.pwr.molczak.semanticWeb.sparkql.SparkProcessor;
-import org.pwr.molczak.semanticWeb.utils.Tuple;
 
 public class QueryRunner {
 	
@@ -35,7 +33,7 @@ public class QueryRunner {
 			}
 				break;
 			case 4: {
-				sparkProcessor.runQuery(SparkQuery.SAMOCHODY_NIEOPLACALNE.query() + SparkRules.DEFNE_OPLACALNOSC.query()
+				sparkProcessor.runQuery(SparkQuery.SAMOCHODY_NIEOPLACALNE.query() + SparkRules.DEFINE_OPLACALNOSC.query()
 				+ SparkRules.DEFINE_CZY_SUPER_SAMPCHOD.query() + "}");
 			}
 				break;
@@ -43,6 +41,10 @@ public class QueryRunner {
 				sparkProcessor.runQuery(SparkQuery.QUERY_ALL_INSTANCES);
 			}
 				break;
+			case 6: {
+				sparkProcessor.runQuery(SparkQuery.DATA_MITSHUBISHI_CARS);
+			}
+			break;
 			default:
 			}
 		}
@@ -56,6 +58,7 @@ public class QueryRunner {
 		System.out.println("3 - Określ ceny elementów wyposażenia");
 		System.out.println("4 - Znajdź wszystkie samochody nieopłacalne");
 		System.out.println("5 - Znajdź wszystkie instancje");
+		System.out.println("6 - Informacje o samochodach marki Mitshubishi");
 		System.out.println("10 - Wyjdź");
 		System.out.println("Proszę wybrać dane do wypisania: \n");
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
