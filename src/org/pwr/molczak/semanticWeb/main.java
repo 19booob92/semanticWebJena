@@ -1,34 +1,46 @@
 package org.pwr.molczak.semanticWeb;
 
-import org.apache.jena.base.Sys;
-import org.pwr.molczak.semanticWeb.jena.OntologyProcessor;
-import org.pwr.molczak.semanticWeb.utils.Tuple;
+import static org.pwr.molczak.semanticWeb.sparkql.SprakProcessor.PREFIX_TOKEN;
+
+import org.pwr.molczak.semanticWeb.jena.Ontology;
+import org.pwr.molczak.semanticWeb.sparkql.SprakProcessor;
 
 public class main {
+
+	private final static String WIEDZMIN_POCHODZENIE_QUERY = "PREFIX gra: " + PREFIX_TOKEN
+			+ "SELECT * WHERE { ?wiedzmin a gra:Wiedzmin. ?wiedzmin gra:jestZRegionu ?jestZRegionu. }";
+
+	private final static String WIEDZMIN_NAGRODY = "PREFIX gra:" + PREFIX_TOKEN
+			+ "SELECT ?wiedzmin ?posiadaNagrody WHERE { ?wiedzmin a gra:Wiedzmin. ?wiedzmin gra:posiadaNagrody ?posiadaNagrody. }";
+
+	private final static String GRY_O_OKRESLONYM_TYTULE = "PREFIX gra: " + PREFIX_TOKEN
+			+ "SELECT * WHERE { ?y gra:posiadaPodTytul ?g .FILTER regex(?g, \"d\", \"i\")}";
+
 	public static void main(String[] args) {
 
-		OntologyProcessor processor = new OntologyProcessor();
+		Ontology ontology = new Ontology();
 
-		Tuple<String, Long> classes = processor.listAllClasses();
-		Tuple<String, Long> properties = processor.listAllProperties();
-		Tuple<String, Long> individuals = processor.listAllInstances();
-		String classesWithIndividuals = processor.listClassesWithIndividuals();
-		String classesWithSubClasses = processor.listClassesWithSubClasses();
-		String propertiesWithDomainAndRange = processor.listPropertiesWithRangeAndDomain();
+//		ontology.printClasses();
 
-		System.err.println(processor.printResult(classes, " klas"));
-		System.err.println("\n\n");
-		System.err.println(processor.printResult(properties, " własności"));
-		System.err.println("\n\n");
-		System.err.println(processor.printResult(individuals, " indywidua"));
-		System.err.println("\n\n");
-		System.err.println(classesWithIndividuals);
-		System.err.println("\n\n");
-		System.err.println(classesWithSubClasses);
-		System.err.println("\n\n");
-		System.err.println(propertiesWithDomainAndRange);
-		
-		processor.listClassHierarchy();
+//		ontology.printProperties();
+
+//		ontology.printInstances();
+//
+//		ontology.printClassesWithIndividuals();
+//
+//		ontology.printClassesWithSubClasses();
+//
+		ontology.listPropertiesWithRangeAndDomain();
+//
+//		ontology.listClassHierarchy();
+
+		// ## SPARK ##
+
+		SprakProcessor spark = new SprakProcessor();
+
+		// spark.runQuery(WIEDZMIN_POCHODZENIE_QUERY);
+		// spark.runQuery(WIEDZMIN_NAGRODY);
+//		spark.runQuery(GRY_O_OKRESLONYM_TYTULE);
 
 	}
 }
